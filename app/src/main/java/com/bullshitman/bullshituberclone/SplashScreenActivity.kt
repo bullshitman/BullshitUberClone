@@ -101,36 +101,36 @@ class SplashScreenActivity : AppCompatActivity() {
     private fun showRegisterLayout() {
         val builder = AlertDialog.Builder(this, R.style.DialogTheme)
         val itemView = LayoutInflater.from(this).inflate(R.layout.layout_register, null)
-        val edit_first_name = itemView.findViewById<View>(R.id.edit_first_name) as TextInputEditText
-        val edit_last_name = itemView.findViewById<View>(R.id.edit_last_name) as TextInputEditText
-        val edit_phone_number = itemView.findViewById<View>(R.id.edit_phone_number) as TextInputEditText
-        val btn_continue = itemView.findViewById<View>(R.id.btn_continue) as Button
+        val firstName = itemView.findViewById<View>(R.id.edit_first_name) as TextInputEditText
+        val lastName = itemView.findViewById<View>(R.id.edit_last_name) as TextInputEditText
+        val phoneNumber = itemView.findViewById<View>(R.id.edit_phone_number) as TextInputEditText
+        val continueBtn = itemView.findViewById<View>(R.id.btn_continue) as Button
 
         if (FirebaseAuth.getInstance().currentUser!!.phoneNumber != null && TextUtils.isDigitsOnly(FirebaseAuth.getInstance().currentUser!!.phoneNumber)) {
-            edit_phone_number.setText(FirebaseAuth.getInstance().currentUser!!.phoneNumber)
+            phoneNumber.setText(FirebaseAuth.getInstance().currentUser!!.phoneNumber)
         }
         builder.setView(itemView)
         val dialog = builder.create()
         dialog.show()
-        btn_continue.setOnClickListener {
+        continueBtn.setOnClickListener {
             when {
-                TextUtils.isDigitsOnly(edit_first_name.text.toString()) -> {
+                TextUtils.isDigitsOnly(firstName.text.toString()) -> {
                     Toast.makeText(this@SplashScreenActivity, "Please, enter First Name", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
-                TextUtils.isDigitsOnly(edit_last_name.text.toString()) -> {
+                TextUtils.isDigitsOnly(lastName.text.toString()) -> {
                     Toast.makeText(this@SplashScreenActivity, "Please, enter Last Name", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
-                TextUtils.isDigitsOnly(edit_phone_number.text.toString()) -> {
+                TextUtils.isDigitsOnly(phoneNumber.text.toString()) -> {
                     Toast.makeText(this@SplashScreenActivity, "Please, enter Phone Number", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
                 else -> {
                     val model = DriverInfoModel()
-                    model.firstName = edit_first_name.text.toString()
-                    model.lastName = edit_last_name.text.toString()
-                    model.phoneNumber = edit_phone_number.text.toString()
+                    model.firstName = firstName.text.toString()
+                    model.lastName = lastName.text.toString()
+                    model.phoneNumber = phoneNumber.text.toString()
 
                     driverInfoRef.child(FirebaseAuth.getInstance().currentUser!!.uid)
                         .setValue(model)
