@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">BullshitUberClone</string>
+    <string name="continue_text">Continue</string>
+    <string name="register_text">Start with creating your account</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="phone_number">Phone number</string>
 </resources>
