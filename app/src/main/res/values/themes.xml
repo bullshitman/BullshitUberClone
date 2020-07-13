@@ -41,5 +41,12 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">false</item>
     </style>
+    <style name="Theme.BullshitUberClone.AppBarOverlay">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.BullshitUberClone.PopupOverlay"
+        parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.null.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>
