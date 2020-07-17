@@ -1,6 +1,10 @@
 package com.bullshitman.bullshituberclone
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
@@ -12,10 +16,14 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import com.google.firebase.auth.FirebaseAuth
 
 class DriverHomeActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var navView: NavigationView
+    private lateinit var drawerLayout: DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,15 +31,16 @@ class DriverHomeActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        val navView: NavigationView = findViewById(R.id.nav_view)
+        drawerLayout = findViewById(R.id.drawer_layout)
+        navView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow), drawerLayout)
+            R.id.nav_home), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        init()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -43,5 +52,40 @@ class DriverHomeActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    private fun init() {
+        navView.setNavigationItemSelectedListener { item ->
+            if (item.itemId == R.id.nav_sign_out) {
+                val builder = AlertDialog.Builder(this@DriverHomeActivity)
+                with(builder) {
+                    setMessage("Do you really want to sign out?")
+                    setNegativeButton("Cancel") { dialogInterface, _ ->  dialogInterface.dismiss()}
+                    setPositiveButton("Sign out") { _, _ ->
+                        FirebaseAuth.getInstance().signOut()
+                        val intent = Intent(this@DriverHomeActivity, SplashScreenActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                        finish()
+                    }.setCancelable(false)
+                }
+                val dialog = builder.create()
+                dialog.setOnShowListener {
+                    dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                        .setTextColor(ContextCompat.getColor(this, android.R.color.holo_red_dark))
+                    dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+                        .setTextColor(ContextCompat.getColor(this, R.color.colorAccent))
+                }
+                builder.show()
+            }
+            true
+        }
+        val headerView = navView.getHeaderView(0)
+        val textName = headerView.findViewById<View>(R.id.txt_name) as TextView
+        val textPhone = headerView.findViewById<View>(R.id.txt_phone) as TextView
+        val textStar = headerView.findViewById<View>(R.id.txt_star) as TextView
+        textName.text = Common.buildWelcomeMessage()
+        textPhone.text = Common.currentUser!!.phoneNumber
+        textStar.text = Common.currentUser!!.rating.toString()
     }
 }

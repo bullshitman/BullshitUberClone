@@ -88,7 +88,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
   }
 
   private fun init() {
-    onlineRef = FirebaseDatabase.getInstance().getReference().child(".info/connected")
+    onlineRef = FirebaseDatabase.getInstance().reference.child(".info/connected")
     driversLocationRef = FirebaseDatabase.getInstance().getReference(Common.DRIVER_LOCATION_REFERENCE)
     currentUserRef = FirebaseDatabase.getInstance().getReference(Common.DRIVER_LOCATION_REFERENCE).child(FirebaseAuth.getInstance().currentUser!!.uid)
     geoFire = GeoFire(driversLocationRef)
