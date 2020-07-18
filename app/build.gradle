@@ -68,4 +68,9 @@ dependencies {
     implementation 'com.firebase:geofire-android:3.0.0'
     //Circle Image
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+    //FireBase storage
+    implementation 'com.google.firebase:firebase-storage:19.1.1'
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 }
