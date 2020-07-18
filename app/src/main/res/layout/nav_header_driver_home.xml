@@ -16,8 +16,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/image_avatar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:src="@mipmap/ic_launcher_round"
         app:civ_border_color="@android:color/white"
         app:civ_border_width="1dp"
@@ -35,6 +35,7 @@
         <TextView
             android:id="@+id/txt_star"
             android:layout_width="match_parent"
+            android:fontFamily="@font/uber_move"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
             android:layout_gravity="center_vertical"
@@ -48,6 +49,7 @@
         android:id="@+id/txt_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/uber_move"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="@string/nav_header_title"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
@@ -55,6 +57,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/uber_move"
         android:text="@string/nav_header_subtitle"
         android:id="@+id/txt_phone" />
 </LinearLayout>

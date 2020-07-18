@@ -70,7 +70,7 @@ class DriverHomeActivity : AppCompatActivity() {
     }
 
     private fun init() {
-        storageReference = FirebaseStorage.getInstance().reference
+        storageReference = FirebaseStorage.getInstance().getReference()
         waitingDialog = AlertDialog.Builder(this)
             .setMessage("Waiting..")
             .setCancelable(false).create()
@@ -111,9 +111,9 @@ class DriverHomeActivity : AppCompatActivity() {
         textPhone.text = Common.currentUser!!.phoneNumber
         textStar.text = Common.currentUser!!.rating.toString()
 
-        if (Common.currentUser != null && Common.currentUser?.imageAvatar != null && TextUtils.isEmpty(Common.currentUser?.imageAvatar)) {
+        if (Common.currentUser != null && Common.currentUser!!.imageAvatar != null && !Common.currentUser!!.imageAvatar.isBlank()) {
             Glide.with(this)
-                .load(Common.currentUser?.imageAvatar)
+                .load(Common.currentUser!!.imageAvatar)
                 .into(imageAvatar)
         }
 
@@ -129,7 +129,7 @@ class DriverHomeActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_IMAGE_REQUEST && requestCode == Activity.RESULT_OK) {
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
             if (data != null) {
                 imageUri = data.data
                 imageAvatar.setImageURI(imageUri)
@@ -156,10 +156,11 @@ class DriverHomeActivity : AppCompatActivity() {
                             if (task.isSuccessful) {
                                 avatarFolder.downloadUrl.addOnSuccessListener { uri ->
                                     val update_data = HashMap<String, Any>()
-                                    update_data.put("avatar", uri.toString())
+                                    update_data.put("imageAvatar", uri.toString())
                                     UserUtils.updateUserInfo(drawerLayout, update_data)
                                 }
                             }
+                            waitingDialog.dismiss()
                         }
                         .addOnProgressListener { taskSnapshot ->
                             val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount
