@@ -13,12 +13,14 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bullshitman.bullshituberclone.Model.DriverInfoModel
+import com.bullshitman.bullshituberclone.utils.UserUtils
 import com.firebase.ui.auth.AuthMethodPickerLayout
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.iid.FirebaseInstanceId
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_splash_screen.*
@@ -72,7 +74,17 @@ class SplashScreenActivity : AppCompatActivity() {
         listener = FirebaseAuth.AuthStateListener { myFireBaseAuth ->
             val user = myFireBaseAuth.currentUser
             if (user != null) {
-                Toast.makeText(this@SplashScreenActivity, "Welcome:  ${user.uid}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@SplashScreenActivity, "Welcome back:  ${user.uid}", Toast.LENGTH_SHORT).show()
+                FirebaseInstanceId.getInstance()
+                    .instanceId
+                    .addOnFailureListener { exception ->
+                        Log.d("TOKEN", exception.message)
+                        Toast.makeText(this@SplashScreenActivity, exception.message, Toast.LENGTH_LONG).show()
+                    }
+                    .addOnSuccessListener { instanceIdResult ->
+                        Log.d("TOKEN", instanceIdResult.token)
+                        UserUtils.updateToken(this@SplashScreenActivity, instanceIdResult.token)
+                    }
                 checkUserFromFireBase()
             } else {
                 showLoginLayout()
