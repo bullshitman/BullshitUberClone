@@ -7,6 +7,7 @@ import android.text.TextUtils
 import android.view.Menu
 import android.view.View
 import android.widget.ImageView
+import android.widget.MediaController
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -21,6 +22,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavController
 import com.bullshitman.bullshituberclone.utils.UserUtils
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
@@ -35,6 +37,7 @@ class DriverHomeActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navView: NavigationView
     private lateinit var drawerLayout: DrawerLayout
+    private lateinit var navController: NavController
     private lateinit var imageAvatar: ImageView
     private lateinit var waitingDialog: AlertDialog
     private lateinit var storageReference: StorageReference
@@ -48,7 +51,7 @@ class DriverHomeActivity : AppCompatActivity() {
 
         drawerLayout = findViewById(R.id.drawer_layout)
         navView = findViewById(R.id.nav_view)
-        val navController = findNavController(R.id.nav_host_fragment)
+        navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(setOf(
