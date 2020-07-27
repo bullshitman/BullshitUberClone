@@ -176,9 +176,9 @@ class DriverHomeActivity : AppCompatActivity() {
         dialog.setOnShowListener {
             with(dialog) {
                 getButton(AlertDialog.BUTTON_POSITIVE)
-                    .setTextColor(ContextCompat.getColor(context, android.R.color.holo_red_dark))
+                    .setTextColor(ContextCompat.getColor(this@DriverHomeActivity, android.R.color.holo_red_dark))
                 getButton(AlertDialog.BUTTON_NEGATIVE)
-                    .setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
+                    .setTextColor(ContextCompat.getColor(this@DriverHomeActivity, R.color.colorAccent))
             }
         }
         dialog.show()
